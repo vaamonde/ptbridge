@@ -5,8 +5,8 @@
 # Facebook: facebook.com/BoraParaPratica
 # YouTube: youtube.com/BoraParaPratica
 # Data de criação: 13/10/2018
-# Data de atualização: 13/10/2018
-# Versão: 0.1
+# Data de atualização: 14/10/2018
+# Versão: 0.2
 # Testado e homologado para a versão do Ubuntu Desktop 16.04 e 18.04 LTS x64
 # Testado e homologado para a versão do Linux Mint 18 e 19 LTS x64
 #
