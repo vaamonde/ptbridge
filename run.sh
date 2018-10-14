@@ -19,13 +19,13 @@
 # Github da Bridge do Cisco Packet Tracer: https://github.com/andiwand/ptbridge
 
 #Declarando as variáveis de ambiente para a Placa de Rede Tun/Tap e Bridge
-INTERFACE_LAN="enp6s0"
+INTERFACE_LAN="enp0s3"
 INTERFACE_TUNTAP="tap0"
 INTERFACE_BRIDGE="br0"
-IP_PACKETTRACER="192.168.0.103"
-PORT_PACKETTRACER="3800"
-PASSWORD_PACETTRACER="123456"
-IP_INTERFACE_BRIDGE="192.168.0.103/24"
+IP_PACKETTRACER="192.168.0.123"
+PORT_PACKETTRACER="38000"
+PASSWORD_PACKETTRACER="123456"
+IP_INTERFACE_BRIDGE="192.168.0.123/24"
 GATEWAY="192.168.1.1"
 IP_PROMISCUOUS="0.0.0.0"
 
@@ -36,39 +36,39 @@ for name in uml-utilities bridge-utils libpcap0.8 libpcap0.8-dev openjdk-11-jre
 do
   [[ $(dpkg -s $name 2> /dev/null) ]] || { echo -en "\nO software: $name precisa ser instalado. \nUse o comando 'sudo apt-get install $name'\n";deps=1; }
 done
-[[ $deps -ne 1 ]] && echo "Dependências.: OK" || { echo -en "\nInstale as dependências acima e execute novamente este script\n";exit 1; }
+[[ $deps -ne 1 ]] && echo "Dependências.: OK\n" || { echo -en "\nInstale as dependências acima e execute novamente este script\n";exit 1; }
 
 echo -e "Inicializando o Módulo de Tunelamento, aguarde..."
 	#Iniciando o módulo de tunelamento dos protocolos TUN/TAP
 	sudo modprobe tun
-echo -e "Módulo inicializado com sucesso!!!, continuando o script..."
+echo -e "Módulo inicializado com sucesso!!!, continuando o script...\n"
 
 echo -e "Criando a Inteface de Tunelamento: $INTERFACE_TUNTAP, aguarde..."
 	#Criando a interface TUN/TAP
 	sudo tunctl -t $INTERFACE_TUNTAP
-echo -e "Interface de Tunelamento criada com sucesso!!!, continuando o script..."
+echo -e "Interface de Tunelamento criada com sucesso!!!, continuando o script...\n"
 
 echo -e "Criando a Inteface de Bridge: $INTERFACE_BRIDGE, aguarde..."
 	#Criando a interface de Bridge
 	sudo brctl addbr $INTERFACE_BRIDGE
-echo -e "Interface de Bridge criada com sucesso!!!, continuando o script..."
+echo -e "Interface de Bridge criada com sucesso!!!, continuando o script...\n"
 
 echo -e "Configurando as Interface: $INTERFACE_LAN e $INTERFACE_TUNTAP em modo promíscuo, aguarde..."
 	#Configurando as Interfaces de LAN e TUN/TAP para modo promíscuo
 	sudo ifconfig $INTERFACE_LAN $IP_PROMISCUOUS promisc up   
 	sudo ifconfig $INTERFACE_TUNTAP $IP_PROMISCUOUS promisc up
-echo -e "Interfaces configuradas com sucesso!!!, continuando o script..."
+echo -e "Interfaces configuradas com sucesso!!!, continuando o script...\n"
 
 echo -e "Adicionando as Interface: $INTERFACE_LAN e $INTERFACE_TUNTAP na Interface de: $INTERFACE_BRIDGE, aguarde..."
 	#Adicionando as Interface $INTERFACE_LAN e $INTERFACE_TUNTAP ao grupo Bridge
 	sudo brctl addif $INTERFACE_BRIDGE $INTERFACE_LAN   
 	sudo brctl addif $INTERFACE_BRIDGE $INTERFACE_TUNTAP
-echo -e "Interfaces adicionadas com sucesso!!!, continuando o script..."
+echo -e "Interfaces adicionadas com sucesso!!!, continuando o script...\n"
 
 echo -e "Inicializando a Interface de: $INTERFACE_BRIDGE, aguarde..."
 	#Iniciando a Interfacce de Bridge
 	sudo ifconfig $INTERFACE_BRIDGE up
-echo -e "Interface inicializada com sucesso!!!, continuando o script"
+echo -e "Interface inicializada com sucesso!!!, continuando o script...\n"
 
 echo -e "Configurando o Endereçamento IP da Interface: $INTERFACE_BRIDGE, aguarde..."
 	#Obtendo as configurações de enderaçamento via DHCP
@@ -76,19 +76,21 @@ echo -e "Configurando o Endereçamento IP da Interface: $INTERFACE_BRIDGE, aguar
 	#sudo ifconfig $INTERFACE_BRIDGE $IP_INTERFACE_BRIDGE
 	#sudo route add default gw $GATEWAY
 	sudo dhclient $INTERFACE_BRIDGE
-echo -e "Endereçamento IP configurado com sucesso!!!, continuando o script..."
+echo -e "Endereçamento IP configurado com sucesso!!!, continuando o script...\n"
 
 echo -e "Inicializando a conexão com Cisco Packet Tracer em Modo Bridge, aguarde..."
+echo -e "Pressione: Ctrl+C para finalizar a conexão"
 	#Inicializando o serviço de Bridge do Cisco Packet Tracer
-	sudo java -jar ptbridge.jar $INTERFACE_BRIDGE $IP_PACKETTRACER:$PORT_PACKETTRACER $PASSWORD_PACETTRACE
+	sudo java -jar ptbridge.jar $INTERFACE_BRIDGE $IP_PACKETTRACER:$PORT_PACKETTRACER $PASSWORD_PACKETTRACER &> /dev/null
+echo -e "Conexão com o Cisco Packet Tracer finalizada com sucesso!!!\n"
 
-#Removendo as configurações de Bridge e Tunelamento
-#sudo ifconfig br0 down
-#sudo ifconfig tap0 down
-#sudo ifconfig eth0 down
-#sudo brctl delbr br0
-#sudo tunctl -d tap0
-#sudo ifconfig eth0 up
-#sudo dhclient eth0
-
-echo -e "Conexão finalizada com sucesso!!!!"
+echo -e "
+Para removendo as configurações de Bridge e Tunelamento, digite os comandos abaixo ou reinicialize o sistema
+sudo ifconfig br0 down
+sudo ifconfig tap0 down
+sudo ifconfig eth0 down
+sudo brctl delbr br0
+sudo tunctl -d tap0
+sudo ifconfig eth0 up
+sudo dhclient eth0
+"
