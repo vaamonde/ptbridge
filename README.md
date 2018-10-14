@@ -1,14 +1,10 @@
 # ptbridge
 
-This tool makes it possible to bridge traffic between virtual packet tracer networks and
-real networks. Therefore it translates packets and keeps states for the protocol translation.
-Sadly packet tracer packets and protocols are different to real ones which makes it difficult
-to translate them and inflexible. So there is only a handful of protocols implemented and
-these could be unstable.
+Esta ferramenta permite interligar o tráfego entre as redes do Cisco Packet Tracer e as redes reais. Por isso, traduz pacotes e mantém estados para a tradução do protocolo. Infelizmente, os pacotes e os protocolos do Cisco Packet Tracer são diferentes dos reais, o que dificulta sua tradução e inflexibilidade. Portanto, há apenas um punhado de protocolos implementados e estes podem ser instáveis.
 
-It is not possible to pass generic data through pt networks, like usually over ip, tcp or udp.
+Não é possível passar dados genéricos através de redes do Cisco Packet Tracer, como normalmente através de IP, TCP ou UDP.
 
-## Supported protocols
+## Suporte ao Protocolos
 
 * Ethernet
 * IP
@@ -19,16 +15,18 @@ It is not possible to pass generic data through pt networks, like usually over i
 * DHCP (broken)
 * Telnet
 
-## Usage
+## Uso
 
-To use this tool you need to setup a linux vm on your host os. For this I used VirtualBox and
-Ubuntu. Then you will need a bridged interface in the vm to the network you want ptbridge to
-be connected. In the vm ptbridge needs to be started as root due to low level network access.
+Para usar esta ferramenta você precisa configurar um Linux VM no seu sistema operacional hospedeiro. Para isso eu usei o VirtualBox e Ubuntu e Linux Mint. 
 
-Then you need to setup packet tracer for multiuser connection. There are alot tutorials and
-videos about this on the internet. The packet tracer instance need to be in server mode.
-Try the connection with a second packet tracer instance. After that, you can connect the
-ptbridge to packer tracer.
+Então você vai precisar de uma interface em ponte na VM para a rede que você deseja ptbridge estar conectado. 
 
-The usage of this tool should be self explanatory:
+No VM ptbridge precisa ser iniciado como root devido ao acesso de rede de baixo nível.
+
+Então você precisa configurar o rastreador de pacotes para conexão multiusuário. Existem muitos tutoriais e
+vídeos sobre isso na internet. 
+
+A instância do rastreador de pacotes precisa estar no modo de servidor. Tente a conexão com uma segunda instância do tracer de pacotes. Depois disso, você pode conectar o ptbridge para rastreador de empacotador.
+
+O uso desta ferramenta deve ser auto-explicativo:
 `./ptbridge.jar <interface> <pt_ip>:<pt_port> <password>`
