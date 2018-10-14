@@ -9,9 +9,14 @@
 # Versão: 0.1
 # Testado e homologado para a versão do Ubuntu Desktop 16.04 e 18.04 LTS x64
 # Testado e homologado para a versão do Linux Mint 18 e 19 LTS x64
+#
 # Placa de Rede TUN/TAP: https://en.wikipedia.org/wiki/TUN/TAP
 # Placa de Rede Bridge: https://en.wikipedia.org/wiki/Bridging_(networking)
 # Placa de Rede Promíscua: https://en.wikipedia.org/wiki/Promiscuous_mode
+# Suporte aos Protocolos: Ethernet, IP, UDP, TCP, ARP, ICMP, DHCP (broken) e Telnet
+# Suporte a Multiuser Connection e Protocolo PTMP (Packet Tracer Messaging Protocol)
+# Informações sobre o Bridge do Cisco Packet Tracer: https://www.packettracernetwork.com/features/real-network-connection.html
+# Github da Bridge do Cisco Packet Tracer: https://github.com/andiwand/ptbridge
 
 #Declarando as variáveis de ambiente para a Placa de Rede Tun/Tap e Bridge
 INTERFACE_LAN="enp6s0"
